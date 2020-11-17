@@ -1,0 +1,15 @@
+#!/bin/bash
+  declare -A noob  
+while read line
+  do
+    line=$(echo $line | tr 'a-z' 'A-Z' | tr '()[]{}"' '@' | tr "'" '@' | sed 's/@//g' | sed 's/[ ][ ]*/ /g' | sed 's/[	][	]*/ /g')
+    line=$(echo $line | sed 's/[ ][ ]*/_/g'| sed 's/[_]*[.,;:?!][_]*/ /g')
+    for phrase in $line
+    do
+      ((noob[$phrase]+=1))
+    done
+  done
+  for phrase in ${!noob[@]}
+  do
+    echo ${noob[$phrase]}" "$phrase | tr '_' ' '
+  done
