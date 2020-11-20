@@ -4,23 +4,23 @@
 #     Proffesor: Nick Macias      
 #    Sorts out the text put in and then tallys the phrases
 #
-#
+#   11/20/2020
 ##################################################################################
 
  declare -A tally  #declaring the array
-while read line
+while read line   # loop in order to kee[ reading, stops until ctrl + D
   do
     line=$(echo $line | tr 'a-z' 'A-Z' | tr '()[]{}"' '@' | tr "'" '@' | sed 's/@//g' | sed 's/[ ][ ]*/ /g' | sed 's/[	][	]*/ /g')
-    line=$(echo $line | sed 's/[ ][ ]*/_/g'| sed 's/[_]*[.,;:?!][_]*/ /g')
+    line=$(echo $line | sed 's/[ ][ ]*/_/g'| sed 's/[_]*[.,;:?!][_]*/ /g')    #both of the lines do the replacing
     for phrase in $line
     do
       val=${tally["$phrase"]}
       val=$((val+1))
       tally["$phrase"]=$val
-      #((tally"[$phrase]"+=1))
+      # this for loop tallys the phrases
     done
   done
   for phrase in ${!tally[@]}
   do
-    echo ${tally[$phrase]}" "$phrase | tr '_' ' '
+    echo ${tally[$phrase]}" "$phrase | tr '_' ' '   # changes the '_' to spaces
   done
